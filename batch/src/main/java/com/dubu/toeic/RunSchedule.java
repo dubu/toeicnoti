@@ -32,9 +32,6 @@ public class RunSchedule {
         // Create a method instance.
         PostMethod post = new PostMethod(url);
 
-        String pDate  = "2014-03-08";
-        String msg = URLEncoder.encode("발표일14.03.14(금) 오후 3시 ");
-
         Map sche = new HashMap<String,String>();
 
         sche.put("2014-03-13",URLEncoder.encode("발표일14.03.14(금) 오후 3시"));
@@ -68,9 +65,6 @@ public class RunSchedule {
         sche.put("2014-10-26", URLEncoder.encode("발표일 ~14.10.27(월) 오전 8시"));
         sche.put("2014-11-30", URLEncoder.encode("발표일 ~14.12.01(월) 오전 8시"));
 
-        String bodyData = "utf8=%E2%9C%93&authenticity_token=bbVEJcvnzx4KmfjHyz4RXViIdCc21y1nl1ZxffnRKY0%3D&target_type=everyone&push_to_android=1&target=%7B%7D&data=" + msg
-                + "&data_type=message&push_time_type=time&push_date=" + pDate + "&push_hour=1&push_minute=00&push_ampm=PM&push_tz=%2B09%3A00&expiration_time_type=never&expiration_date=2014-02-24&expiration_hour=1&expiration_minute=35&expiration_ampm=PM&expiration_tz=%2B09%3A00&expiration_interval_num=1&expiration_interval_unit=hours";
-
         post.setRequestHeader(new Header("Accept","text/html, application/xhtml+xml, */*"));
         post.setRequestHeader(new Header("Referer","https://www.parse.com/apps/toeicnoti/push_notifications/new"));
         post.setRequestHeader(new Header("Accept-Language","ko-KR"));
@@ -78,7 +72,6 @@ public class RunSchedule {
         post.setRequestHeader(new Header("Content-Type","application/x-www-form-urlencoded; charset=UTF-8"));
         post.setRequestHeader(new Header("Accept-Encoding","gzip, deflate"));
         post.setRequestHeader(new Header("Host","www.parse.com"));
-        post.setRequestHeader(new Header("Content-Length",String.valueOf(451+msg.length())));
         post.setRequestHeader(new Header("DNT","1"));
         post.setRequestHeader(new Header("Connection","Keep-Alive"));
         post.setRequestHeader(new Header("Cache-Control","no-cache"));
@@ -89,6 +82,15 @@ public class RunSchedule {
 
         String todayMsg = (String)sche.get(today);
         if(todayMsg != null){
+
+//            String pDate = "2014-03-08";
+//            String msg = URLEncoder.encode("발표일14.03.14(금) 오후 3시 ");
+
+            String pDate = today;
+            String msg = todayMsg;
+            post.setRequestHeader(new Header("Content-Length",String.valueOf(451+msg.length())));
+            String bodyData = "utf8=%E2%9C%93&authenticity_token=bbVEJcvnzx4KmfjHyz4RXViIdCc21y1nl1ZxffnRKY0%3D&target_type=everyone&push_to_android=1&target=%7B%7D&data=" + msg
+                    + "&data_type=message&push_time_type=time&push_date=" + pDate + "&push_hour=1&push_minute=00&push_ampm=PM&push_tz=%2B09%3A00&expiration_time_type=never&expiration_date=2014-02-24&expiration_hour=1&expiration_minute=35&expiration_ampm=PM&expiration_tz=%2B09%3A00&expiration_interval_num=1&expiration_interval_unit=hours";
             post.setRequestBody(bodyData);
 
         }else{
